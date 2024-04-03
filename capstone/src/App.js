@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Pages/Header";
-import Login from "./Pages/Login";
 import Dashboard from "./Pages/Dashboard";
+import Login from "./Pages/Login";
 import Home from "./Pages/Home";
-import LandingPage from "./Pages/LandingPage";
+import Upload from "./Pages/Upload";
 import About from "./Pages/About";
 import "./App.css";
 import ListAll from "./Pages/ListAll";
@@ -28,6 +28,7 @@ function App() {
             <Route path="/search" element={<SearchProduct />} />
             <Route path="/add" element={<AddProduct />} />
             <Route path="/about" element={<About />} />
+            <Route path="/upload" element={<Upload />} />
           </Routes>
         </div>
       </div>

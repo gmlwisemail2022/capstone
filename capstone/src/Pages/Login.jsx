@@ -37,6 +37,8 @@ function UserAuth() {
       });
       localStorage.setItem("token", response.data.token);
       setMessage("Login successful");
+      // Redirect to dashboard after successful login
+      window.location.href = "/dashboard";
     } catch (error) {
       setMessage(error.response.data.message);
     }

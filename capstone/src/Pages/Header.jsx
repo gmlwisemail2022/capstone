@@ -1,14 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import Logout from "./Logout";
+import { BiPlusCircle } from "react-icons/fa";
 
 function Header() {
+  const token = localStorage.getItem("token");
+
   return (
     <header>
       {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">
+          <Link className="navbar-brand" to="/">
             eCommerce Inventory Management
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -23,16 +28,25 @@ function Header() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" href="/home">
+                <Link className="nav-link" to="/home">
                   Dashboard
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/about">
+                <Link className="nav-link" to="/about">
                   About
-                </a>
+                </Link>
               </li>
             </ul>
+          </div>
+          <div>
+            {token ? (
+              <Logout />
+            ) : (
+              <Link className="btn btn-primary" to="/login">
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </nav>
@@ -42,17 +56,22 @@ function Header() {
         <ul className="nav flex-column">
           <li className="nav-item">
             <a className="nav-link" href="/listAll">
-              List All
+              <i className="bi bi-list-ul me-2"></i>List All
             </a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="/search">
-              Search
+              <i className="bi bi-search me-2"></i>Search
             </a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="/add">
-              Add Product
+              <i className="bi bi-plus-circle me-2"></i>Add Product
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/upload">
+              <i className="bi bi-plus-circle me-2"></i>Upload
             </a>
           </li>
         </ul>

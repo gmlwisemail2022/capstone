@@ -88,9 +88,9 @@ function login(req, res, next) {
       // Set the token in cookies
       console.log("req.login done - user", user.username);
       res.cookie("token", token, { httpOnly: true });
-
-      // Redirect to /dashboard
-      return res.redirect("/dashboard");
+      return res.status(200).json({ token });
+      // Redirect to /dashboard done in front end
+      //return res.redirect("/dashboard");
     });
   })(req, res, next);
 }

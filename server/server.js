@@ -32,7 +32,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse application/x-www-f
 
 // Routes
 app.use("/", userRoute);
-app.use("/dashboard", dashboardRoute);
+// trying to render the screens via react
+//app.use("/dashboard", dashboardRoute);
 
 // Start server
 app.listen(PORT, () => {

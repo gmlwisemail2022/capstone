@@ -1,37 +1,25 @@
-/* import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-
-export default function Dashboard() {
-  const history = useHistory();
-
-  useEffect(() => {
-    // Check if user is authenticated
-    const token = localStorage.getItem("token");
-    if (!token) {
-      // Redirect to login page if user is not authenticated
-      history.push("/login");
-    }
-  }, [history]);
-
-  return (
-    <div>
-      <p>This is Dashboard Page!</p>
-    </div>
-  );
-}
-*/
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // Import jwt-decode library for decoding JWT tokens
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if the user is authenticated (replace this with your authentication logic)
-    const isAuthenticated = true;
+    const token = localStorage.getItem("token");
 
-    // If the user is not authenticated, redirect to the login page
-    if (!isAuthenticated) {
+    // Check if token exists and is not expired
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
+
+      // Check if token is expired
+      if (decodedToken.exp < currentTime) {
+        // Token is expired, redirect to login page
+        navigate("/login");
+      }
+    } else {
+      // Token doesn't exist, redirect to login page
       navigate("/login");
     }
   }, [navigate]);
