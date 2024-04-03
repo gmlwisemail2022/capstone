@@ -1,3 +1,4 @@
+/*
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "../Pages/Login";
@@ -12,7 +13,7 @@ import AddProduct from "../Pages/AddProduct";
 function RouteComponent() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="" element={<Login />} />
       <Route path="/home" element={<Dashboard />} />
       <Route path="/listall" element={<ListAll />} />
       <Route path="/search" element={<SearchProduct />} />
@@ -23,3 +24,4 @@ function RouteComponent() {
 }
 
 export default RouteComponent;
+*/

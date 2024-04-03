@@ -1,3 +1,5 @@
+//remove this (transferred to Login.jsx)
+/*
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -7,11 +9,21 @@ function UserAuth() {
   const [message, setMessage] = useState("");
 
   const handleRegister = async () => {
+    console.log("Username:", username);
+    console.log("Password:", password);
     try {
-      const response = await axios.post("http://localhost:3000/register", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:3000/register",
+        {
+          username,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response.data.message);
@@ -20,8 +32,9 @@ function UserAuth() {
 
   const handleLogin = async () => {
     try {
+      console.log("user", username, password);
       const response = await axios.post("http://localhost:3000/login", {
-        email,
+        username,
         password,
       });
       localStorage.setItem("token", response.data.token);
@@ -54,3 +67,4 @@ function UserAuth() {
 }
 
 export default UserAuth;
+*/
