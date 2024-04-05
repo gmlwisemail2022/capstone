@@ -4,6 +4,19 @@ const Product = require("../model/product");
 
 // Product Related Features starts here:
 
+// List All Products function - this function lists all the products and corresponding data via querying limited by pagination
+async function listAll(req, res) {
+  try {
+    const page = req.query.page || 1;
+    const pageSize = 20;
+    const products = await Product.getPaginatedProducts(page, pageSize);
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 // Upload function - mass upload products to db using csv stream reader from the uploaded csv file
 async function upload(req, res) {
   console.log("reading csv file - back end");
@@ -84,4 +97,5 @@ async function upload(req, res) {
 
 module.exports = {
   upload, // Export the upload function
+  listAll, // Export the upload function
 };
