@@ -1,3 +1,5 @@
+// This file involves all user related database access
+
 const knex = require("../db");
 
 class User {

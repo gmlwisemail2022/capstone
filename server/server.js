@@ -3,8 +3,8 @@ const session = require("express-session");
 const passport = require("passport");
 const bodyParser = require("body-parser"); // Import body-parser module
 const cors = require("cors");
-const userRoute = require("./routes/user");
-const dashboardRoute = require("./routes/dashboard");
+const routes = require("./routes");
+const fileUpload = require("express-fileupload"); // Import express-fileupload
 
 const PORT = process.env.PORT || 3100;
 const app = express();
@@ -29,11 +29,17 @@ app.use(passport.session());
 app.use(cors());
 app.use(bodyParser.json()); // Parse application/json
 app.use(bodyParser.urlencoded({ extended: true })); // Parse application/x-www-form-urlencoded
+// Use express-fileupload middleware with configuration
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+    limits: { fileSize: 50 * 1024 * 1024 }, // Example: Limit file size to 50MB
+  })
+);
 
 // Routes
-app.use("/", userRoute);
-// trying to render the screens via react
-//app.use("/dashboard", dashboardRoute);
+app.use("/", routes);
 
 // Start server
 app.listen(PORT, () => {

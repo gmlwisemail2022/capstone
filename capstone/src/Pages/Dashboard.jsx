@@ -12,14 +12,17 @@ export default function Dashboard() {
     if (token) {
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
+      console.log("token exists");
 
       // Check if token is expired
       if (decodedToken.exp < currentTime) {
         // Token is expired, redirect to login page
+        console.log("token expired");
         navigate("/login");
       }
     } else {
       // Token doesn't exist, redirect to login page
+      console.log("token does not exist");
       navigate("/login");
     }
   }, [navigate]);

@@ -1,15 +1,16 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Header from "./Pages/Header";
 import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
-import Home from "./Pages/Home";
 import Upload from "./Pages/Upload";
 import About from "./Pages/About";
 import "./App.css";
 import ListAll from "./Pages/ListAll";
 import SearchProduct from "./Pages/SearchProduct";
 import AddProduct from "./Pages/AddProduct";
+import WhatsNew from "./Pages/WhatsNew";
+import Calendar from "./Pages/Calendar";
 
 function App() {
   return (
@@ -23,11 +24,12 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/home" element={<Dashboard />} />
             <Route path="/listall" element={<ListAll />} />
             <Route path="/search" element={<SearchProduct />} />
             <Route path="/add" element={<AddProduct />} />
             <Route path="/about" element={<About />} />
+            <Route path="/whatsnew" element={<WhatsNew />} />
+            <Route path="/calendar" element={<Calendar />} />
             <Route path="/upload" element={<Upload />} />
           </Routes>
         </div>

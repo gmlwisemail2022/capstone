@@ -11,7 +11,8 @@ function UserAuth() {
     console.log("Password:", password);
     try {
       const response = await axios.post(
-        "/register",
+        "http://localhost:3100/register",
+        //"/register",
         {
           username,
           password,
@@ -31,7 +32,7 @@ function UserAuth() {
   const handleLogin = async () => {
     try {
       console.log("user", username, password);
-      const response = await axios.post("/login", {
+      const response = await axios.post("http://localhost:3100/login", {
         username,
         password,
       });

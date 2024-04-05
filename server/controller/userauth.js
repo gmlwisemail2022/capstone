@@ -1,3 +1,6 @@
+//This file contains all the dashboard related functionalities
+//This covers user registration, login, and user authentication
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");

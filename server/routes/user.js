@@ -1,4 +1,4 @@
-//routes only
+/*To remove this file - transferred to route.js
 const express = require("express");
 const router = express.Router();
 
@@ -11,3 +11,4 @@ router.post("/register", userauth.register);
 router.post("/login", userauth.login);
 
 module.exports = router;
+*/
