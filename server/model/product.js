@@ -58,6 +58,53 @@ class Product {
     }
   }
 
+  static async searchByName(name) {
+    try {
+      const products = await knex("products")
+        .select(
+          "products.*",
+          "images.image_url_1",
+          "images.image_url_2",
+          "images.image_url_3",
+          "images.image_url_4",
+          "images.image_url_5"
+        )
+        .leftJoin("images", "products.product_id", "images.product_id")
+        .whereRaw("LOWER(product_name) LIKE ?", `%${name.toLowerCase()}%`);
+      console.log("products.length", products.length);
+      if (products.length === 0) {
+        console.log("no product found. product length is", products.length);
+        return [{ message: "Search returned 0 Results" }];
+      }
+
+      //console.log("products returned by product name search:", products);
+      return products;
+    } catch (error) {
+      console.error("Error searching products by name:", error);
+      throw error;
+    }
+  }
+
+  static async searchByExternalId(externalId) {
+    try {
+      const products = await knex("products").where("external_id", externalId);
+      return products;
+    } catch (error) {
+      console.error("Error searching products by external ID:", error);
+      throw error;
+    }
+  }
+
+  static async searchByProductId(productId) {
+    try {
+      const products = await knex("products").where("product_id", productId);
+      return products;
+    } catch (error) {
+      console.error("Error searching products by ID:", error);
+      throw error;
+    }
+  }
+
   static async search(query) {
     try {
       const products = await knex("products")

@@ -13,7 +13,7 @@ router.get("/dashboard", dashboard.verify);
 
 // Define product routes
 router.get("/listall", product.listAll);
-//router.post("/search", product.search);
+router.post("/search", product.search);
 //router.post("/category", product.category);
 //router.post("/add", product.add);
 //router.post("/edit", product.edit);

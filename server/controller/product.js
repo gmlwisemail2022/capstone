@@ -17,6 +17,35 @@ async function listAll(req, res) {
   }
 }
 
+// Search function - this function lets the user choose the selection criteria and specify the string to be searched in the database
+async function search(req, res) {
+  console.log("search function started");
+  try {
+    const { type, value } = req.query;
+    let products;
+    switch (type) {
+      case "productName":
+        console.log("search by product name started");
+        products = await Product.searchByName(value);
+        break;
+      case "externalId":
+        console.log("search by product name external id");
+        products = await Product.searchByExternalId(value);
+        break;
+      case "productId":
+        console.log("search by product name product id");
+        products = await Product.searchByProductId(value);
+        break;
+      default:
+        products = [];
+    }
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Error searching products:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 // Upload function - mass upload products to db using csv stream reader from the uploaded csv file
 async function upload(req, res) {
   console.log("reading csv file - back end");
@@ -98,4 +127,5 @@ async function upload(req, res) {
 module.exports = {
   upload, // Export the upload function
   listAll, // Export the upload function
+  search, //Export the search function
 };
