@@ -8,7 +8,7 @@ const Product = require("../model/product");
 async function listAll(req, res) {
   try {
     const page = req.query.page || 1;
-    const pageSize = 20;
+    const pageSize = 30;
     const products = await Product.getPaginatedProducts(page, pageSize);
     res.status(200).json(products);
   } catch (error) {

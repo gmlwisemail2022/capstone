@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function UserAuth() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     console.log("Username:", username);
@@ -39,7 +41,8 @@ function UserAuth() {
       localStorage.setItem("token", response.data.token);
       setMessage("Login successful");
       // Redirect to dashboard after successful login
-      window.location.href = "/dashboard";
+      //window.location.href = "/dashboard";
+      navigate("/dashboard");
     } catch (error) {
       setMessage(error.response.data.message);
     }

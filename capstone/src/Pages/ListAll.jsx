@@ -47,7 +47,7 @@ function ListAll() {
           {products.map((product) => (
             <div className="col-md-4 mb-4" key={product.product_id}>
               <div className="card">
-                <div style={{ maxHeight: "300px", overflow: "hidden" }}>
+                <div style={{ height: "300px", overflow: "hidden" }}>
                   <img
                     src={
                       product.image_url_1 || "https://via.placeholder.com/300"
@@ -57,7 +57,7 @@ function ListAll() {
                     style={{ width: "100%", objectFit: "cover" }}
                   />
                 </div>
-                <div className="card-body">
+                <div className="card-body" style={{ height: "200px" }}>
                   <h5 className="card-title">Product Name:</h5>
                   <p className="card-text">{product.product_name}</p>
                   <h5 className="card-title">Category:</h5>
