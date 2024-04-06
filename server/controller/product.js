@@ -124,8 +124,52 @@ async function upload(req, res) {
   }
 }
 
+// View a single product
+async function viewProduct(req, res) {
+  console.log("view Product function started");
+  try {
+    const { productId } = req.params;
+    const product = await Product.getProduct(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.status(200).json(product);
+  } catch (error) {
+    console.error("Error viewing product:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+// Edit a single product
+async function editProduct(req, res) {
+  try {
+    const { productId } = req.params;
+    const newData = req.body; // Assuming the new data is sent in the request body
+    await Product.editProduct(productId, newData);
+    res.status(200).json({ message: "Product updated successfully" });
+  } catch (error) {
+    console.error("Error editing product:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+// Delete a single product
+async function deleteProduct(req, res) {
+  try {
+    const { productId } = req.params;
+    await Product.deleteProduct(productId);
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 module.exports = {
   upload, // Export the upload function
   listAll, // Export the upload function
   search, //Export the search function
+  viewProduct,
+  editProduct,
+  deleteProduct,
 };

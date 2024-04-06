@@ -7,6 +7,9 @@ import About from "./Pages/About";
 import "./App.css";
 import ListAll from "./Pages/ListAll";
 import SearchProduct from "./Pages/SearchProduct";
+import ViewProduct from "./Pages/ViewProduct";
+import EditProduct from "./Pages/EditProduct";
+import DeleteProduct from "./Pages/DeleteProduct";
 import AddProduct from "./Pages/AddProduct";
 import WhatsNew from "./Pages/WhatsNew";
 import Calendar from "./Pages/Calendar";
@@ -24,7 +27,19 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/listall" element={<ListAll />} />
               <Route path="/search" element={<SearchProduct />} />
-              <Route path="/add" element={<AddProduct />} />
+              <Route
+                path="/view/product/:productId"
+                element={<ViewProduct />}
+              />
+              <Route
+                path="/edit/product/:productId"
+                element={<EditProduct />}
+              />
+              <Route
+                path="/delete/product/:productId"
+                element={<DeleteProduct />}
+              />
+              <Route path="/add/product" element={<AddProduct />} />
               <Route path="/about" element={<About />} />
               <Route path="/whatsnew" element={<WhatsNew />} />
               <Route path="/calendar" element={<Calendar />} />

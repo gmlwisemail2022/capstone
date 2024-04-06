@@ -1,5 +1,8 @@
+// ListAll.jsx and SearchProduct.jsx
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function ListAll() {
   const [products, setProducts] = useState([]);
@@ -57,11 +60,29 @@ function ListAll() {
                     style={{ width: "100%", objectFit: "cover" }}
                   />
                 </div>
-                <div className="card-body" style={{ height: "200px" }}>
+                <div className="card-body" style={{ height: "250px" }}>
                   <h5 className="card-title">Product Name:</h5>
                   <p className="card-text">{product.product_name}</p>
                   <h5 className="card-title">Category:</h5>
                   <p className="card-text">{product.category}</p>
+                  <Link
+                    to={`/view/product/${product.product_id}`}
+                    className="btn btn-primary me-2"
+                  >
+                    View
+                  </Link>
+                  <Link
+                    to={`/edit/product/${product.product_id}`}
+                    className="btn btn-success me-2"
+                  >
+                    Edit
+                  </Link>
+                  <Link
+                    to={`/delete/product/${product.product_id}`}
+                    className="btn btn-danger"
+                  >
+                    Delete
+                  </Link>
                 </div>
               </div>
             </div>

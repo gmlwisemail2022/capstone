@@ -14,10 +14,11 @@ router.get("/dashboard", dashboard.verify);
 // Define product routes
 router.get("/listall", product.listAll);
 router.post("/search", product.search);
+router.get("/view/product/:productId", product.viewProduct);
+router.put("/edit/product/:productId", product.editProduct);
+router.delete("/delete/product/:productId", product.deleteProduct);
 //router.post("/category", product.category);
 //router.post("/add", product.add);
-//router.post("/edit", product.edit);
-//router.post("/delete", product.delete);
 router.post("/upload", product.upload);
 
 module.exports = router;
