@@ -1,3 +1,18 @@
+/*This file covers all the product related functions in the dashboard
+ List of product functions:
+List All - Lists all the products (attanged by product_id)
+Category - Lists all products by category
+Search - Lists all products by search field (either product_name, external_id, or product_id)
+Add Product - Form submits a new product
+Upload - Form uploads a file to the database (file must be in CSV format)
+
+Additional Per Product Functions:
+Edit Product
+View Product
+Delete Product
+
+ */
+
 const csv = require("csv-parser");
 const fs = require("fs");
 const Product = require("../model/product");
@@ -129,7 +144,9 @@ async function viewProduct(req, res) {
   console.log("view Product function started");
   try {
     const { productId } = req.params;
-    const product = await Product.getProduct(productId);
+    const product = await Product.searchByProductId(productId);
+    console.log("product is", product);
+    //const product = await Product.getProduct(productId);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -157,8 +174,13 @@ async function editProduct(req, res) {
 async function deleteProduct(req, res) {
   try {
     const { productId } = req.params;
+    // Delete from images table first
+    await Product.deleteImages(productId);
+    // Then delete from products table
     await Product.deleteProduct(productId);
-    res.status(200).json({ message: "Product deleted successfully" });
+    res
+      .status(200)
+      .json({ message: "Product and associated images deleted successfully" });
   } catch (error) {
     console.error("Error deleting product:", error);
     res.status(500).json({ message: "Internal server error" });

@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
-function Search() {
-  const [searchType, setSearchType] = useState("");
-  const [searchValue, setSearchValue] = useState("");
+const Categories = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchMessage, setSearchMessage] = useState("");
 
-  const handleSearch = async () => {
+  const handleSearch = async (category) => {
     try {
       const response = await axios.post(`http://localhost:3100/search`, null, {
         params: {
-          type: searchType,
-          value: searchValue,
+          type: "productName",
+          value: category,
         },
       });
       if (response.data.length === 1 && response.data[0].message) {
@@ -32,45 +29,57 @@ function Search() {
     }
   };
 
-  const handleDeleteProduct = async (productId) => {
-    try {
-      await axios.delete(`http://localhost:3100/delete/product/${productId}`);
-      // Refresh search results after deletion
-      handleSearch();
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
-  };
-
   return (
     <div className="container mt-4">
       <div className="row">
-        <div className="col-md-6">
-          <input
-            type="text"
-            className="form-control mb-2"
-            placeholder="Search value"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-          />
-        </div>
-        <div className="col-md-6">
-          <select
-            className="form-select mb-2"
-            value={searchType}
-            onChange={(e) => setSearchType(e.target.value)}
+        <div className="col-md-12">
+          <button
+            onClick={() => handleSearch("Switch")}
+            className="btn btn-primary me-2"
           >
-            <option value="">Select search type</option>
-            <option value="productName">Product Name</option>
-            <option value="externalId">External ID</option>
-            <option value="productId">Product ID</option>
-          </select>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-6">
-          <button onClick={handleSearch} className="btn btn-primary">
-            Search
+            Switch
+          </button>
+          <button
+            onClick={() => handleSearch("PS4")}
+            className="btn btn-primary me-2"
+          >
+            PS4
+          </button>
+          <button
+            onClick={() => handleSearch("PS3")}
+            className="btn btn-primary me-2"
+          >
+            PS3
+          </button>
+          <button
+            onClick={() => handleSearch("Wii")}
+            className="btn btn-primary me-2"
+          >
+            Wii/WiiU
+          </button>
+          <button
+            onClick={() => handleSearch("3DS")}
+            className="btn btn-primary me-2"
+          >
+            3DS
+          </button>
+          <button
+            onClick={() => handleSearch("Vita")}
+            className="btn btn-primary me-2"
+          >
+            PS Vita
+          </button>
+          <button
+            onClick={() => handleSearch("Gaming Merch")}
+            className="btn btn-primary me-2"
+          >
+            Gaming Merch
+          </button>
+          <button
+            onClick={() => handleSearch("Collector")}
+            className="btn btn-primary me-2"
+          >
+            Collector's
           </button>
         </div>
       </div>
@@ -104,24 +113,9 @@ function Search() {
               >
                 <h5 className="card-title">Product Name:</h5>
                 <p className="card-text">{product.product_name}</p>
-                <Link
-                  to={`/view/product/${product.product_id}`}
-                  className="btn btn-primary me-2"
-                >
-                  View
-                </Link>
-                <Link
-                  to={`/edit/product/${product.product_id}`}
-                  className="btn btn-success me-2"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => handleDeleteProduct(product.product_id)}
-                  className="btn btn-danger"
-                >
-                  Delete
-                </button>
+                <button className="btn btn-primary me-2">View</button>
+                <button className="btn btn-success me-2">Edit</button>
+                <button className="btn btn-danger">Delete</button>
               </div>
             </div>
           </div>
@@ -129,6 +123,6 @@ function Search() {
       </div>
     </div>
   );
-}
+};
 
-export default Search;
+export default Categories;

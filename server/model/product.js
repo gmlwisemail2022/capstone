@@ -76,8 +76,6 @@ class Product {
         console.log("no product found. product length is", products.length);
         return [{ message: "Search returned 0 Results" }];
       }
-
-      //console.log("products returned by product name search:", products);
       return products;
     } catch (error) {
       console.error("Error searching products by name:", error);
@@ -87,7 +85,17 @@ class Product {
 
   static async searchByExternalId(externalId) {
     try {
-      const products = await knex("products").where("external_id", externalId);
+      const products = await knex("products")
+        .select(
+          "products.*",
+          "images.image_url_1",
+          "images.image_url_2",
+          "images.image_url_3",
+          "images.image_url_4",
+          "images.image_url_5"
+        )
+        .leftJoin("images", "products.product_id", "images.product_id")
+        .where("external_id", externalId);
       return products;
     } catch (error) {
       console.error("Error searching products by external ID:", error);
@@ -97,7 +105,17 @@ class Product {
 
   static async searchByProductId(productId) {
     try {
-      const products = await knex("products").where("product_id", productId);
+      const products = await knex("products")
+        .select(
+          "products.*",
+          "images.image_url_1",
+          "images.image_url_2",
+          "images.image_url_3",
+          "images.image_url_4",
+          "images.image_url_5"
+        )
+        .leftJoin("images", "products.product_id", "images.product_id")
+        .where("products.product_id", productId);
       return products;
     } catch (error) {
       console.error("Error searching products by ID:", error);
@@ -119,7 +137,41 @@ class Product {
 
   static async editProduct(productId, newData) {
     try {
-      await knex("products").where({ product_id: productId }).update(newData);
+      // Extract image URLs from newData
+      const {
+        image_url_1,
+        image_url_2,
+        image_url_3,
+        image_url_4,
+        image_url_5,
+        ...productData
+      } = newData;
+
+      // Update product table with productData
+      await knex("products")
+        .where({ product_id: productId })
+        .update(productData);
+
+      // Update image table if image URLs are provided
+      if (
+        image_url_1 ||
+        image_url_2 ||
+        image_url_3 ||
+        image_url_4 ||
+        image_url_5
+      ) {
+        // Construct the image URLs object
+        const imageUrls = {
+          image_url_1: image_url_1 || "",
+          image_url_2: image_url_2 || "",
+          image_url_3: image_url_3 || "",
+          image_url_4: image_url_4 || "",
+          image_url_5: image_url_5 || "",
+        };
+
+        // Update image URLs in the image table
+        await knex("images").where({ product_id: productId }).update(imageUrls);
+      }
     } catch (error) {
       console.error("Error editing product:", error);
       throw error;
@@ -131,6 +183,16 @@ class Product {
       await knex("products").where({ product_id: productId }).del();
     } catch (error) {
       console.error("Error deleting product:", error);
+      throw error;
+    }
+  }
+
+  static async deleteImages(productId) {
+    try {
+      // Delete images associated with the product_id
+      await knex("images").where({ product_id: productId }).del();
+    } catch (error) {
+      console.error("Error deleting images:", error);
       throw error;
     }
   }

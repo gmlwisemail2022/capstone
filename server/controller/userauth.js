@@ -1,4 +1,3 @@
-//This file contains all the dashboard related functionalities
 //This covers user registration, login, and user authentication
 
 const express = require("express");
@@ -66,36 +65,40 @@ async function register(req, res) {
 }
 
 // Login function using Passport authentication
-function login(req, res, next) {
+async function login(req, res, next) {
   console.log("login user logic started - ", req.body);
-  //passport.authenticate("local", { session: false }, (err, user, info) => {
-  passport.authenticate("local", (err, user, info) => {
-    console.log("passport error-", err);
-    if (err) {
-      return res.status(500).json({ message: "Internal server error" });
+  const { username, password } = req.body;
+  try {
+    // Check if the user exists in the database
+    const existingUser = await User.findByUsername(username);
+    if (!existingUser) {
+      return res.status(401).json({ message: "User not registered" });
     }
-    if (!user) {
-      console.log("passport not same user", user);
-      return res.status(401).json({ message: info.message });
-    }
-    //req.login(user, { session: false }, (err) => {
-    req.login(user, (err) => {
+
+    // Proceed with authentication if the user exists
+    passport.authenticate("local", async (err, user, info) => {
       if (err) {
-        console.log("Login error:", err);
         return res.status(500).json({ message: "Internal server error" });
       }
-      const token = jwt.sign({ username: user.username }, "secret", {
-        expiresIn: "1h",
+      if (!user) {
+        return res.status(401).json({ message: info.message });
+      }
+      req.login(user, async (err) => {
+        if (err) {
+          console.log("Login error:", err);
+          return res.status(500).json({ message: "Internal server error" });
+        }
+        const token = jwt.sign({ username: user.username }, "secret", {
+          expiresIn: "1h",
+        });
+        res.cookie("token", token, { httpOnly: true });
+        return res.status(200).json({ token });
       });
-      //return res.status(200).json({ token });
-      // Set the token in cookies
-      console.log("req.login done - user", user.username);
-      res.cookie("token", token, { httpOnly: true });
-      return res.status(200).json({ token });
-      // Redirect to /dashboard done in front end
-      //return res.redirect("/dashboard");
-    });
-  })(req, res, next);
+    })(req, res, next);
+  } catch (error) {
+    console.error("Error during login:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 }
 
 module.exports = { register, login };
