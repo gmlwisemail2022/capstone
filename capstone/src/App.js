@@ -4,7 +4,6 @@ import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import Upload from "./Pages/Upload";
 import About from "./Pages/About";
-import "./App.css";
 import ListAll from "./Pages/ListAll";
 import SearchProduct from "./Pages/SearchProduct";
 import Categories from "./Pages/Categories";

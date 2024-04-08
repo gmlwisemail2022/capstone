@@ -40,8 +40,30 @@ async function search(req, res) {
     let products;
     switch (type) {
       case "productName":
-        console.log("search by product name started");
-        products = await Product.searchByName(value);
+        console.log("value of productname is ", value);
+        //temp for Gaming Merch while category of products not yet set
+        if (value === "Gaming Merch") {
+          console.log("search by product name started for Gaming Merch");
+          const searchKeywords = [
+            " pin",
+            " postcard",
+            " sticker",
+            " figure",
+            " keychain",
+            " coaster",
+            " strap",
+          ];
+          let allProducts = [];
+
+          for (const keyword of searchKeywords) {
+            const productsForKeyword = await Product.searchByName(keyword);
+            allProducts = allProducts.concat(productsForKeyword);
+          }
+          products = allProducts;
+        } else {
+          console.log("search by product name started");
+          products = await Product.searchByName(value);
+        }
         break;
       case "externalId":
         console.log("search by product name external id");
