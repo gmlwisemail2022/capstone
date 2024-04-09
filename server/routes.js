@@ -3,6 +3,7 @@ const router = express.Router();
 const userauth = require("./controller/userauth");
 const dashboard = require("./controller/dashboard");
 const product = require("./controller/product");
+const notes = require("./controller/notes");
 
 // Define user routes
 router.post("/register", userauth.register);
@@ -10,6 +11,10 @@ router.post("/login", userauth.login);
 
 // Define dashboard routes
 router.get("/dashboard", dashboard.verify);
+router.get("/notes", notes.listAllNotes);
+router.post("/notes", notes.addNote);
+router.put("/notes/:noteId", notes.editNote);
+router.delete("/notes/:noteId", notes.deleteNote);
 
 // Define product routes
 router.get("/listall", product.listAll);
