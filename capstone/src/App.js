@@ -10,7 +10,7 @@ import SearchProduct from "./Pages/SearchProduct";
 import Categories from "./Pages/Categories";
 import ViewProduct from "./Pages/ViewProduct";
 import EditProduct from "./Pages/EditProduct";
-import DeleteProduct from "./Pages/DeleteProduct";
+//import DeleteProduct from "./Pages/DeleteProduct";
 import AddProduct from "./Pages/AddProduct";
 import WhatsNew from "./Pages/WhatsNew";
 import Calendar from "./Pages/Calendar";
@@ -37,10 +37,10 @@ function App() {
                 path="/edit/product/:productId"
                 element={<EditProduct />}
               />
-              <Route
+              {/*<Route
                 path="/delete/product/:productId"
                 element={<DeleteProduct />}
-              />
+  />*/}
               <Route path="/add/product" element={<AddProduct />} />
               <Route path="/about" element={<About />} />
               <Route path="/whatsnew" element={<WhatsNew />} />

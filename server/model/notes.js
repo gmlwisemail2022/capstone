@@ -1,30 +1,23 @@
 const knex = require("../db");
 
 class Note {
-  // Function to get all notes
-  static async getAllNotes() {
+  // Function to get notes by user ID
+  static async getNotesByUserId(userId) {
     try {
-      return await knex("notes").select("*");
+      return await knex("notes").where({ user_id: userId }).select("*");
     } catch (error) {
       throw error;
     }
   }
 
   // Function to create a new note
-  static async createNote({ date, message, userId }) {
+  static async createNote(data) {
     try {
-      console.log("Insertion of note to the database:", date, message, userId);
-      const [noteId] = await knex("notes").insert({
-        date,
-        message,
-        user_id: userId,
-      });
-      const newNote = { note_id: noteId, date, message, userId };
-      console.log("Note inserted successfully:", newNote);
-      return newNote; // Return the new note data
+      const note = await knex("notes").insert(data);
+      return note;
     } catch (error) {
-      console.error("Error adding note:", error);
-      throw error; // Rethrow the error to handle it in the controller
+      console.error("Error creating product:", error);
+      throw error;
     }
   }
 

@@ -9,12 +9,23 @@ const localizer = momentLocalizer(moment);
 function Calendar() {
   // State for storing notes
   const [notes, setNotes] = useState([]);
+  const [alertMessage, setAlertMessage] = useState(null);
 
   // Function to fetch notes from the database
   const fetchNotes = async () => {
     try {
-      const response = await axios.get("http://localhost:3100/notes"); // Adjust the endpoint accordingly
-      setNotes(response.data);
+      const username = localStorage.getItem("username");
+      const response = await axios.get(
+        `http://localhost:3100/notes/${username}`
+      ); // Adjust the endpoint accordingly
+      console.log("FE-notes", response);
+      const formattedNotes = response.data.map((note) => ({
+        ...note,
+        start: moment(`${note.date} ${note.time}`, "YYYY-MM-DD HH:mm").toDate(),
+        end: moment(`${note.date} ${note.time}`, "YYYY-MM-DD HH:mm").toDate(),
+        title: note.message,
+      }));
+      setNotes(formattedNotes);
     } catch (error) {
       console.error("Error fetching notes:", error);
     }
@@ -25,17 +36,16 @@ function Calendar() {
   }, []); // Fetch notes when the component mounts
 
   // Function to handle adding a new note
-  const handleAddNote = async (date, message) => {
+  const handleAddNote = async (date, time, message) => {
     try {
-      // Add your logic to save the note to the database
-      // You'll need to send a POST request to your backend endpoint
-      const username = localStorage.getItem("username"); // Retrieve authenticated user's ID from localStorage
+      const username = localStorage.getItem("username");
       await axios.post("http://localhost:3100/notes", {
         date,
+        time,
         message,
         username,
       }); // Adjust the endpoint accordingly
-      // After successfully adding the note, fetch the updated notes
+      setAlertMessage("Note created successfully");
       fetchNotes();
     } catch (error) {
       console.error("Error adding note:", error);
@@ -43,24 +53,35 @@ function Calendar() {
   };
 
   // Function to handle editing a note
-  const handleEditNote = async (noteId, message) => {
+  const handleEditNote = async (note) => {
     try {
-      await axios.put(`http://localhost:3100/notes/${noteId}`, {
-        message,
-      });
-      alert("Note updated successfully");
-      fetchNotes(); // Refresh notes after updating
+      const newMessage = prompt(
+        "Enter the new message for this note:",
+        note.message
+      );
+      if (newMessage !== null) {
+        await axios.put(`http://localhost:3100/notes/${note.note_id}`, {
+          message: newMessage,
+        });
+        setAlertMessage("Note updated successfully");
+        fetchNotes();
+      }
     } catch (error) {
       console.error("Error updating note:", error);
     }
   };
 
   // Function to handle deleting a note
-  const handleDeleteNote = async (noteId) => {
+  const handleDeleteNote = async (note) => {
     try {
-      await axios.delete(`http://localhost:3100/notes/${noteId}`);
-      alert("Note deleted successfully");
-      fetchNotes(); // Refresh notes after deletion
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this note?"
+      );
+      if (confirmDelete) {
+        await axios.delete(`http://localhost:3100/notes/${note.note_id}`);
+        setAlertMessage("Note deleted successfully");
+        fetchNotes();
+      }
     } catch (error) {
       console.error("Error deleting note:", error);
     }
@@ -71,14 +92,26 @@ function Calendar() {
       {/* Render the calendar component */}
       <BigCalendar
         localizer={localizer}
-        events={notes.map((note) => ({
-          start: new Date(note.date),
-          end: new Date(note.date),
-          title: note.message,
-        }))}
+        events={notes}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500 }}
+        onSelectEvent={(event) => {
+          const action = prompt(
+            "Edit or Delete the note? type 'e' for edit or 'd' for delete)"
+          );
+          if (action !== null) {
+            if (action.toLowerCase() === "e") {
+              handleEditNote(event);
+            } else if (action.toLowerCase() === "d") {
+              handleDeleteNote(event);
+            } else {
+              alert(
+                "Invalid action. Please enter 'e' for edit or 'd' for 'delete'."
+              );
+            }
+          }
+        }}
       />
 
       {/* Form to add a new note */}
@@ -87,8 +120,9 @@ function Calendar() {
         onSubmit={(e) => {
           e.preventDefault();
           const date = e.target.elements.date.value;
+          const time = e.target.elements.time.value;
           const message = e.target.elements.message.value;
-          handleAddNote(date, message);
+          handleAddNote(date, time, message);
           e.target.reset();
         }}
       >
@@ -97,11 +131,20 @@ function Calendar() {
           <input type="date" name="date" required />
         </div>
         <div>
+          <label>Time:</label>
+          <input type="time" name="time" required />
+        </div>
+        <div>
           <label>Message:</label>
           <textarea name="message" required />
         </div>
         <button type="submit">Add Note</button>
       </form>
+      {alertMessage && (
+        <div className="alert alert-success" role="alert">
+          {alertMessage}
+        </div>
+      )}
     </div>
   );
 }

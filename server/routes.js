@@ -11,7 +11,7 @@ router.post("/login", userauth.login);
 
 // Define dashboard routes
 router.get("/dashboard", dashboard.verify);
-router.get("/notes", notes.listAllNotes);
+router.get("/notes/:username", notes.listNotes);
 router.post("/notes", notes.addNote);
 router.put("/notes/:noteId", notes.editNote);
 router.delete("/notes/:noteId", notes.deleteNote);

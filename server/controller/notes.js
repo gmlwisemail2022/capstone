@@ -2,10 +2,16 @@ const Note = require("../model/notes");
 const User = require("../model/user");
 const express = require("express");
 
-// Function to list all notes
-async function listAllNotes(req, res) {
+// Function to list notes by specific user
+async function listNotes(req, res) {
   try {
-    const notes = await Note.getAllNotes();
+    const { username } = req.params;
+    const user = await User.findByUsername(username);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const userId = user.user_id;
+    const notes = await Note.getNotesByUserId(userId);
     res.status(200).json(notes);
   } catch (error) {
     console.error("Error fetching notes:", error);
@@ -16,18 +22,24 @@ async function listAllNotes(req, res) {
 // Function to add a new note
 async function addNote(req, res) {
   try {
-    const { date, message, username } = req.body;
+    const { date, time, message, username } = req.body;
     // Retrieve user_id based on username
     const user = await User.findByUsername(username);
     const userId = user.user_id;
     // Add the note using the retrieved userId
-    const newNote = await Note.createNote({
-      date,
-      message,
-      userId,
-    });
+    const noteData = {
+      date: date,
+      time: time,
+      message: message,
+      user_id: userId,
+    };
+
+    await Note.createNote(noteData);
+    console.log("Note saved in database", noteData);
     // Send a success response with the new note data
-    res.status(201).json(newNote);
+    res.status(200).json({
+      message: "Note created successfully",
+    });
   } catch (error) {
     console.error("Error adding note:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -37,9 +49,9 @@ async function addNote(req, res) {
 // Function to edit an existing note
 async function editNote(req, res) {
   try {
-    const { id } = req.params;
+    const { noteId } = req.params;
     const { message } = req.body;
-    await Note.updateNote(id, { message });
+    await Note.updateNote(noteId, { message });
     res.status(200).json({ message: "Note updated successfully" });
   } catch (error) {
     console.error("Error editing note:", error);
@@ -50,8 +62,8 @@ async function editNote(req, res) {
 // Function to delete an existing note
 async function deleteNote(req, res) {
   try {
-    const { id } = req.params;
-    await Note.deleteNote(id);
+    const { noteId } = req.params;
+    await Note.deleteNote(noteId);
     res.status(200).json({ message: "Note deleted successfully" });
   } catch (error) {
     console.error("Error deleting note:", error);
@@ -60,7 +72,7 @@ async function deleteNote(req, res) {
 }
 
 module.exports = {
-  listAllNotes,
+  listNotes,
   addNote,
   editNote,
   deleteNote,

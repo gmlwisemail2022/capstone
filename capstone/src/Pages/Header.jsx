@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logout from "./Logout";
+import Clock from "./Clock";
 
 const Header = () => {
   const token = localStorage.getItem("token");
@@ -52,7 +53,10 @@ const Header = () => {
         </div>
         <div>
           {token ? (
-            <Logout />
+            <>
+              <Clock /> {/* Add the Clock component */}
+              <Logout />
+            </>
           ) : (
             <Link className="btn btn-primary" to="/login">
               Login
