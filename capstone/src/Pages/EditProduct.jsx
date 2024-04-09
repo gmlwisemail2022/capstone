@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function EditProduct() {
@@ -14,7 +14,7 @@ function EditProduct() {
     image_url_4: "",
     image_url_5: "",
   });
-
+  const navigate = useNavigate();
   const { productId } = useParams();
 
   useEffect(() => {
@@ -44,9 +44,8 @@ function EditProduct() {
         `http://localhost:3100/edit/product/${productId}`,
         formData
       );
-      // Show modal for confirmation of form submission
       // Redirect to ViewProduct page after successful update
-      window.location.href = `/view/product/${productId}`;
+      navigate(`/view/product/${productId}`);
     } catch (error) {
       console.error("Error updating product:", error);
     }
@@ -65,6 +64,7 @@ function EditProduct() {
               value={formData.product_name}
               onChange={handleChange}
               className="form-control"
+              required
             />
           </div>
           <div className="form-group">
@@ -74,17 +74,31 @@ function EditProduct() {
               value={formData.description}
               onChange={handleChange}
               className="form-control"
+              required
             />
           </div>
           <div className="form-group">
             <label>Category:</label>
-            <input
-              type="text"
+            <select
               name="category"
               value={formData.category}
               onChange={handleChange}
               className="form-control"
-            />
+              required
+            >
+              <option value="">Select category</option>
+              <option value="Switch">Switch</option>
+              <option value="PS4">PS4</option>
+              <option value="PS3">PS3</option>
+              <option value="Wii">Wii</option>
+              <option value="Wii U">Wii U</option>
+              <option value="3DS">3DS</option>
+              <option value="DS">DS</option>
+              <option value="Vita">Vita</option>
+              <option value="Gaming Merch">Gaming Merch</option>
+              <option value="Collector's">Collector's</option>
+              <option value="Others">Others</option>
+            </select>
           </div>
           <div className="form-group">
             <label>Image URLs:</label>

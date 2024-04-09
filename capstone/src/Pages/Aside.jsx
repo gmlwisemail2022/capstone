@@ -20,7 +20,7 @@ const Aside = () => {
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/add">
+          <a className="nav-link" href="/add/product">
             <i className="bi bi-plus-circle me-2"></i>Add Product
           </a>
         </li>

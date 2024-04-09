@@ -161,6 +161,55 @@ async function upload(req, res) {
   }
 }
 
+// Add a single product
+async function addProduct(req, res) {
+  try {
+    //const { productId } = req.params;
+    // Verify if product name already exists
+    console.log("req - product name to check:", req.body.product_name);
+    const isDuplicate = await Product.verifyProduct(req.body.product_name);
+    if (isDuplicate) {
+      console.log("temp-duplicate");
+      return res
+        .status(400)
+        .json({ message: "Duplicate product - product name must be unique!" });
+    }
+
+    const productData = {
+      external_id: req.body.external_id,
+      product_name: req.body.product_name,
+      description: req.body.description,
+      category: req.body.category,
+    };
+
+    console.log("productData");
+    // Insert the product data into the database
+    const productId = await Product.createProduct(productData);
+
+    // Optionally, insert image data into the "images" table
+    const imageUrls = {
+      image_url_1: req.body.image_url_1,
+      image_url_2: req.body.image_url_2,
+      image_url_3: req.body.image_url_3,
+      image_url_4: req.body.image_url_4,
+      image_url_5: req.body.image_url_5,
+    };
+
+    // Insert the image data into the database
+    console.log("product_id created", productId.product_id);
+    await Product.createImage(imageUrls, productId.product_id);
+    res
+      .status(201)
+      .json({
+        message: "Product created successfully",
+        productId: productId.product_id,
+      });
+  } catch (error) {
+    console.error("Error adding product:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 // View a single product
 async function viewProduct(req, res) {
   console.log("view Product function started");
@@ -213,6 +262,7 @@ module.exports = {
   upload, // Export the upload function
   listAll, // Export the upload function
   search, //Export the search function
+  addProduct,
   viewProduct,
   editProduct,
   deleteProduct,

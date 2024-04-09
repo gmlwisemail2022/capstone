@@ -14,6 +14,7 @@ router.get("/dashboard", dashboard.verify);
 // Define product routes
 router.get("/listall", product.listAll);
 router.post("/search", product.search);
+router.post("/add/product", product.addProduct);
 router.get("/view/product/:productId", product.viewProduct);
 router.put("/edit/product/:productId", product.editProduct);
 router.delete("/delete/product/:productId", product.deleteProduct);
