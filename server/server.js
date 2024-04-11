@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3100;
 const app = express();
 
 // Require the Passport setup file
-require("./passport-setup");
+//require("./passport-setup");
 
 // Session middleware
 app.use(
@@ -25,6 +25,12 @@ app.use(
 // Initialize Passport and session middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Middleware to log request URL before redirection (for debugging)
+app.use((req, res, next) => {
+  console.log("Request URL:", req.originalUrl);
+  next();
+});
 
 // Middleware
 app.use(cors());
@@ -41,6 +47,9 @@ app.use(
 
 // Routes
 app.use("/", routes);
+
+// Require the Passport setup file after initializing app
+require("./passport-setup");
 
 // Start server
 app.listen(PORT, () => {

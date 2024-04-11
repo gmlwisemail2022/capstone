@@ -66,6 +66,11 @@ function UserAuth() {
         username,
         password,
       });
+      console.log(
+        "now setting local storage - token and user",
+        response.data.token,
+        response.data.username
+      );
       localStorage.setItem("token", response.data.token); // token used as user authentication
       localStorage.setItem("username", response.data.username); // Store user ID in localStorage for calendar feature
       setMessage("Login successful");
