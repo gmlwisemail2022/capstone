@@ -47,6 +47,12 @@ async function register(req, res) {
   console.log("register user logic started");
   console.log(req.body); // Add this line to check the request body
   const { username, password } = req.body;
+  // also validated in FE (may remove this one)
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ message: "Username and password are required" });
+  }
   try {
     // Check if username already exists
     const existingUser = await User.findByUsername(username);

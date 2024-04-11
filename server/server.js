@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const bodyParser = require("body-parser"); // Import body-parser module
 const cors = require("cors");
 const routes = require("./routes");

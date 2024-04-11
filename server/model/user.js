@@ -3,14 +3,32 @@
 const knex = require("../db");
 
 class User {
-  static async createUser(username, password) {
-    console.log("user data:", username, password);
-    return await knex("users").insert({ username, password });
+  static async createUser(username, password, googleId = null) {
+    try {
+      const userData = { username, password };
+      if (googleId) {
+        userData.googleId = googleId;
+      }
+      return await knex("users").insert(userData);
+    } catch (error) {
+      throw error;
+    }
   }
 
   static async findByUsername(username) {
-    console.log("user data:", username);
-    return await knex("users").where({ username }).first();
+    try {
+      return await knex("users").where({ username }).first();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async findByGoogleId(googleId) {
+    try {
+      return await knex("users").where({ googleId }).first();
+    } catch (error) {
+      throw error;
+    }
   }
 }
 
