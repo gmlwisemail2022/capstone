@@ -21,7 +21,7 @@ async function verify(req, res) {
         .json({ message: "User authenticated. Welcome to the dashboard!" });
     } else {
       // User is not authenticated, redirect to login page
-      res.redirect("/login");
+      //res.redirect("/login");
     }
   } catch (error) {
     // Handle any errors

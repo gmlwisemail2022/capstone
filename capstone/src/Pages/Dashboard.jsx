@@ -7,8 +7,15 @@ export default function Dashboard() {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    let token = localStorage.getItem("token");
     console.log("getting local storage token", token);
+
+    // Check sessionStorage if token is not found in localStorage
+    if (!token) {
+      token = sessionStorage.getItem("token");
+      console.log("getting session storage token", token);
+    }
+
     // Check if token exists and is not expired
     if (token) {
       const decodedToken = jwtDecode(token);
@@ -24,7 +31,7 @@ export default function Dashboard() {
       }
     } else {
       // Token doesn't exist, redirect to login page
-      navigate("/login");
+      //navigate("/login");
     }
   }, [navigate]);
 

@@ -14,6 +14,7 @@ const app = express();
 //require("./passport-setup");
 
 // Session middleware
+app.use(cors());
 app.use(
   session({
     secret: "your-secret-key",
@@ -33,7 +34,7 @@ app.use((req, res, next) => {
 });
 
 // Middleware
-app.use(cors());
+
 app.use(bodyParser.json()); // Parse application/json
 app.use(bodyParser.urlencoded({ extended: true })); // Parse application/x-www-form-urlencoded
 // Use express-fileupload middleware with configuration

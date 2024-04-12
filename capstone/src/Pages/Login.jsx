@@ -1,31 +1,33 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function UserAuth() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // added google login
+  // Function to handle Google login initiation
   const handleGoogleLogin = async () => {
     try {
-      //const response = await axios.get("http://localhost:3100/auth/google");
-      //console.log(response.data);
-      // Redirect to dashboard after successful login
-      //navigate("/dashboard");
-
-      /*
       const response = await axios.get("http://localhost:3100/auth/google");
-      console.log(response.data);
-      */
-      //window.location.href = response.data.authUrl; // Redirect to Google authentication URL
-      window.location.href = "http://localhost:3100/auth/google";
+      console.log("Google authentication initiated", response.data);
+      // After successful authentication, redirect to Google login page
+      window.location.href = response.data.authUrl;
     } catch (error) {
       console.error("Google login error:", error);
     }
   };
+
+  // Check for success message in URL query parameters
+  React.useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    if (queryParams.get("success")) {
+      setMessage("Google authentication successful.");
+    }
+  }, [location.search]);
 
   const handleRegister = async () => {
     console.log("Username:", username);
