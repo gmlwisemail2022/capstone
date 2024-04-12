@@ -8,7 +8,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
+    console.log("getting local storage token", token);
     // Check if token exists and is not expired
     if (token) {
       const decodedToken = jwtDecode(token);

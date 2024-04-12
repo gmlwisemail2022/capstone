@@ -10,6 +10,7 @@ const router = express.Router();
 
 // Define the route handler for the "/dashboard" route
 async function verify(req, res) {
+  console.log("VERIFY IF AUTHENTICATED!!");
   try {
     console.log("is authenticated?", req.isAuthenticated());
     // Check if user is authenticated

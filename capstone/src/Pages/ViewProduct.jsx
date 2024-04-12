@@ -21,6 +21,21 @@ function ViewProduct(props) {
     }
   };
 
+  // Function to check if the description contains HTML tags
+  const containsHTMLTags = (str) => {
+    const htmlPattern = /<[a-z][\s\S]*>/i;
+    return htmlPattern.test(str);
+  };
+
+  // Function to render the description with or without HTML tags
+  const renderDescription = (description) => {
+    return containsHTMLTags(description) ? (
+      <div dangerouslySetInnerHTML={{ __html: description }} />
+    ) : (
+      <p>{description}</p>
+    );
+  };
+
   return (
     <div className="container mt-4">
       <h2>View Product</h2>
@@ -66,7 +81,9 @@ function ViewProduct(props) {
           </div>
           <div>
             <h4>Product Name: {product.product_name}</h4>
-            <p>Description: {product.description}</p>
+
+            {/* Render the description */}
+            {renderDescription(product.description)}
             <p>Category: {product.category}</p>
             <p>External ID: {product.external_id}</p>
           </div>

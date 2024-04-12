@@ -61,21 +61,22 @@ function UserAuth() {
       return;
     }
     try {
-      console.log("user", username, password);
-      const response = await axios.post("http://localhost:3100/login", {
-        username,
-        password,
-      });
-      console.log(
-        "now setting local storage - token and user",
-        response.data.token,
-        response.data.username
+      let loginData;
+      if (password) {
+        // Local login
+        loginData = { username, password };
+      } else {
+        // Google login
+        loginData = { username };
+      }
+
+      const response = await axios.post(
+        "http://localhost:3100/login",
+        loginData
       );
-      localStorage.setItem("token", response.data.token); // token used as user authentication
-      localStorage.setItem("username", response.data.username); // Store user ID in localStorage for calendar feature
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("username", response.data.username);
       setMessage("Login successful");
-      // Redirect to dashboard after successful login
-      //window.location.href = "/dashboard";
       navigate("/dashboard");
     } catch (error) {
       setMessage(error.response.data.message);
