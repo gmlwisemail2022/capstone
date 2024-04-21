@@ -49,8 +49,7 @@ passport.use(
 );
 
 // Define the handler for Google authentication callback
-// Define the handler for Google authentication callback
-const handleGoogleCallback = (req, res, next) => {
+const handleGoogleAuthCallback = (req, res, next) => {
   passport.authenticate("google", async (err, user, info) => {
     console.log("google callback function:", user);
     if (err) {
@@ -70,7 +69,18 @@ const handleGoogleCallback = (req, res, next) => {
       console.log("saving token from user.token", req.session.token);
 
       // Redirect to the dashboard after successful authentication
-      res.redirect("http://localhost:3000/dashboard");
+      //res.redirect("http://localhost:3000/dashboard");
+      console.log(
+        "sending token and username to dashboard:",
+        user.token,
+        user.username
+      );
+      res.redirect(
+        "http://localhost:3000/dashboard?token=" +
+          user.token +
+          "&username=" +
+          user.username
+      );
     } catch (error) {
       return next(error);
     }
@@ -96,7 +106,7 @@ passport.deserializeUser(async (data, done) => {
 });
 
 // Modify the handleGoogleLogin function to initiate Google authentication
-const handleGoogleLogin = (req, res) => {
+const initiateGoogleLogin = (req, res) => {
   try {
     // Construct the Google OAuth URL
     const authUrl =
@@ -115,4 +125,4 @@ const handleGoogleLogin = (req, res) => {
   }
 };
 
-module.exports = { handleGoogleLogin, handleGoogleCallback };
+module.exports = { initiateGoogleLogin, handleGoogleAuthCallback };

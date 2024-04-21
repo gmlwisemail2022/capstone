@@ -4,6 +4,9 @@ function Logout() {
   const handleLogout = () => {
     // Delete the token from localStorage
     localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    localStorage.removeItem("username");
+    sessionStorage.removeItem("username");
     // Redirect to the login page
     window.location.href = "/login";
   };

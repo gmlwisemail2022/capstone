@@ -80,6 +80,7 @@ function UserAuth() {
       localStorage.setItem("username", response.data.username);
       setMessage("Login successful");
       navigate("/dashboard");
+      window.location.reload(); // Refresh the page
     } catch (error) {
       setMessage(error.response.data.message);
     }

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Logout from "./Logout";
 import Clock from "./Clock";
 
 const Header = () => {
   const token = localStorage.getItem("token");
+  // State variable to store the token
+  //const [token, setToken] = useState("");
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">

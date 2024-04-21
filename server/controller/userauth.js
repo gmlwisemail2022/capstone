@@ -97,8 +97,8 @@ async function login(req, res, next) {
         const token = jwt.sign({ username: user.username }, "secret", {
           expiresIn: "1h",
         });
-        res.cookie("token", token, { httpOnly: true }); //note: username not saved in the cookie!
-        console.log("cookie saved!", res.cookie);
+        //res.cookie("token", token, { httpOnly: true }); //note: username not saved in the cookie!
+        //console.log("res cookie is", res.cookie);
         return res.status(200).json({ token, username: username });
       });
     })(req, res, next);
