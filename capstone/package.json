@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "jwt-decode": "^4.0.0",
@@ -20,6 +21,9 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.5" // Added babel plugin to devDependencies
   },
   "scripts": {
     "start": "react-scripts start",

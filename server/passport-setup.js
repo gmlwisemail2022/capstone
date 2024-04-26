@@ -22,11 +22,12 @@ passport.use(
         let user = await User.findByUsername(profile.displayName);
         if (!user) {
           // If the user does not exist, create a new user
-          user = await User.createUser(
+          await User.createUser(
             profile.displayName,
             "dummy-password",
             profile.id
           );
+          user = await User.findByUsername(profile.displayName);
         }
         console.log("username found:", user);
         // You can save the user to your database here or pass it to the next middleware
@@ -56,8 +57,9 @@ const handleGoogleAuthCallback = (req, res, next) => {
       return next(err);
     }
 
+    console.log("user checking:", user, user.token, user.username);
     try {
-      if (!user || !user.token || !user.username) {
+      if (!user || !user.token) {
         // Handle authentication failure
         return res.redirect("http://localhost:3000/login");
       }
@@ -66,15 +68,16 @@ const handleGoogleAuthCallback = (req, res, next) => {
 
       req.session.token = user.token;
       req.session.username = user.username;
-      console.log("saving token from user.token", req.session.token);
+      //console.log("saving token from user.token", req.session.token);
 
-      // Redirect to the dashboard after successful authentication
-      //res.redirect("http://localhost:3000/dashboard");
       console.log(
         "sending token and username to dashboard:",
         user.token,
         user.username
       );
+      // Redirect to the dashboard after successful authentication
+      //res.redirect("http://localhost:3000/dashboard");
+
       res.redirect(
         "http://localhost:3000/dashboard?token=" +
           user.token +

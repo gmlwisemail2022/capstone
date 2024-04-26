@@ -50,22 +50,20 @@ export default function Dashboard() {
       <header>
         <h1>Welcome, {username}!</h1>
       </header>
-      <nav>
-        <ul>
-          <li>About - Detailed Application Information</li>
-          <li>What's New - Latest feature added to the application</li>
-          <li>
-            Calendar - Built-in Calendar feature with Note Taking feature!
-            (under construction)
-          </li>
-        </ul>
-      </nav>
       <main>
-        <p>This is Dashboard Page!</p>
         <div>
-          <h2>Features</h2>
+          <h2> </h2>
           <p>Here are the lists of features you can use:</p>
           <div style={{ textAlign: "left" }}>
+            <h3>Navigation Bar</h3>
+            <ul>
+              <li>About - Detailed Application Information</li>
+              <li>What's New - Latest feature added to the application</li>
+              <li>
+                Calendar - Built-in Calendar feature with Note Taking feature!
+                (under construction)
+              </li>
+            </ul>
             <h3>Side Column</h3>
             <ul>
               <li>
@@ -105,7 +103,7 @@ export default function Dashboard() {
         </div>
       </main>
       <footer>
-        <p>Footer content goes here</p>
+        <p>Last Updated: April 2024</p>
       </footer>
     </div>
   );

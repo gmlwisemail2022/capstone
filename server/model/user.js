@@ -7,7 +7,7 @@ class User {
     try {
       const userData = { username, password };
       if (googleId) {
-        userData.googleId = googleId;
+        userData.google_id = googleId;
       }
       return await knex("users").insert(userData);
     } catch (error) {
