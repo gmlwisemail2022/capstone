@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import ProductCard from "../Components/ProductCard";
 import Delete from "../Components/Delete";
@@ -9,20 +9,21 @@ const ListAll = () => {
   const [showModal, setShowModal] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState(null);
 
-  useEffect(() => {
-    fetchProducts();
-  }, [currentPage]);
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3100/listAll?page=${currentPage}`
+        process.env.REACT_APP_SERVER_API + "/listAll?page=" + currentPage
+        //`http://localhost:3100/listAll?page=${currentPage}`
       );
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
-  };
+  }, [currentPage]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -35,7 +36,10 @@ const ListAll = () => {
   const handleDeleteProduct = async () => {
     try {
       await axios.delete(
-        `http://localhost:3100/delete/product/${productIdToDelete}`
+        process.env.REACT_APP_SERVER_API +
+          "/delete/product/" +
+          productIdToDelete
+        //`http://localhost:3100/delete/product/${productIdToDelete}`
       );
       fetchProducts();
       setShowModal(false);

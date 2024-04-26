@@ -13,7 +13,8 @@ function ViewProduct(props) {
   const fetchProduct = async (productId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3100/view/product/${productId}`
+        process.env.REACT_APP_SERVER_API + "/view/product/" + productId
+        //`http://localhost:3100/view/product/${productId}`
       );
       setProduct(response.data[0]); // Since the response is an array, select the first item
     } catch (error) {
@@ -46,30 +47,35 @@ function ViewProduct(props) {
             {product.image_url_1 && (
               <img
                 src={product.image_url_1}
+                alt="Product1"
                 style={{ maxWidth: "20%", marginRight: "5px" }} // Limit the size of the image relative to VW
               />
             )}
             {product.image_url_2 && (
               <img
                 src={product.image_url_2}
+                alt="Product2"
                 style={{ maxWidth: "20%", marginRight: "5px" }} // Limit the size of the image relative to VW
               />
             )}
             {product.image_url_3 && (
               <img
                 src={product.image_url_3}
+                alt="Product3"
                 style={{ maxWidth: "20%", marginRight: "5px" }} // Limit the size of the image relative to VW
               />
             )}
             {product.image_url_4 && (
               <img
                 src={product.image_url_4}
+                alt="Product4"
                 style={{ maxWidth: "20%", marginRight: "5px" }} // Limit the size of the image relative to VW
               />
             )}
             {product.image_url_5 && (
               <img
                 src={product.image_url_5}
+                alt="Product5"
                 style={{ maxWidth: "20%", marginRight: "5px" }} // Limit the size of the image relative to VW
               />
             )}

@@ -24,7 +24,8 @@ function EditProduct() {
   const fetchProduct = async (productId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3100/view/product/${productId}`
+        process.env.REACT_APP_SERVER_API + "/view/product/" + productId
+        //`http://localhost:3100/view/product/${productId}`
       );
       setProduct(response.data[0]); // Since the response is an array, select the first item
       setFormData(response.data[0]);
@@ -41,7 +42,8 @@ function EditProduct() {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:3100/edit/product/${productId}`,
+        process.env.REACT_APP_SERVER_API + "/edit/product/" + productId,
+        //`http://localhost:3100/edit/product/${productId}`,
         formData
       );
       // Redirect to ViewProduct page after successful update
@@ -110,7 +112,7 @@ function EditProduct() {
                     <img
                       key={key}
                       src={formData[key]}
-                      alt={`Image ${key.split("_")[2]}`}
+                      alt="Product"
                       style={{ maxWidth: "100px", marginRight: "5px" }}
                     />
                   );

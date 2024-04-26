@@ -16,12 +16,16 @@ const SearchProduct = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.post(`http://localhost:3100/search`, null, {
-        params: {
-          type: searchType,
-          value: searchValue,
-        },
-      });
+      const response = await axios.post(
+        process.env.REACT_APP_SERVER_API + "/search",
+        null,
+        {
+          params: {
+            type: searchType,
+            value: searchValue,
+          },
+        }
+      );
       console.log("total products searched:", response.data.length);
       if (response.data.length === 1 && response.data[0].message) {
         setSearchResults([]);
@@ -41,7 +45,10 @@ const SearchProduct = () => {
 
   const handleDeleteProduct = async (productId) => {
     try {
-      await axios.delete(`http://localhost:3100/delete/product/${productId}`);
+      await axios.delete(
+        process.env.REACT_APP_SERVER_API + "/delete/product/" + productId
+        //`http://localhost:3100/delete/product/${productId}`
+      );
       handleSearch(); // Refresh search results after deletion
       setShowModal(false); // Close delete modal after successful deletion
     } catch (error) {

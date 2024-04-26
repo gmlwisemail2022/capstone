@@ -10,7 +10,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3100/auth/google/callback", // Update with your callback URL
+      callbackURL: process.env.REACT_APP_SERVER_API + "/auth/google/callback", // Update with your callback URL
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log("Google authentication successful");
@@ -61,7 +61,10 @@ const handleGoogleAuthCallback = (req, res, next) => {
     try {
       if (!user || !user.token) {
         // Handle authentication failure
-        return res.redirect("http://localhost:3000/login");
+        return res.redirect(
+          process.env.CLIENT_API + "login"
+          //"http://localhost:3000/login"
+        );
       }
 
       // Store token and username in the session
@@ -79,7 +82,9 @@ const handleGoogleAuthCallback = (req, res, next) => {
       //res.redirect("http://localhost:3000/dashboard");
 
       res.redirect(
-        "http://localhost:3000/dashboard?token=" +
+        //"http://localhost:3000/dashboard?token=" +
+        process.env.CLIENT_API +
+          "/dashboard?token=" +
           user.token +
           "&username=" +
           user.username

@@ -12,7 +12,9 @@ function UserAuth() {
   // Function to handle Google login initiation
   const handleGoogleLogin = async () => {
     try {
-      const response = await axios.get("http://localhost:3100/auth/google");
+      const response = await axios.get(
+        process.env.REACT_APP_SERVER_API + "/auth/google"
+      );
       console.log("Google authentication initiated", response.data);
       // After successful authentication, redirect to Google login page
       window.location.href = response.data.authUrl;
@@ -36,10 +38,10 @@ function UserAuth() {
       setMessage("Username and password are required");
       return;
     }
+    console.log(process.env.REACT_APP_SERVER_API);
     try {
       const response = await axios.post(
-        "http://localhost:3100/register",
-        //"/register",
+        process.env.REACT_APP_SERVER_API + "/register",
         {
           username,
           password,
@@ -73,14 +75,14 @@ function UserAuth() {
       }
 
       const response = await axios.post(
-        "http://localhost:3100/login",
+        process.env.REACT_APP_SERVER_API + "/login",
         loginData
       );
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("username", response.data.username);
       setMessage("Login successful");
       navigate("/dashboard");
-      window.location.reload(); // Refresh the page
+      window.location.reload(); // Refresh the page for successful local login
     } catch (error) {
       setMessage(error.response.data.message);
     }

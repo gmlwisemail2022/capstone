@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import ProductCard from "../Components/ProductCard";
 import Delete from "../Components/Delete";
@@ -7,20 +7,23 @@ const Categories = () => {
   const [category, setCategory] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [searchMessage, setSearchMessage] = useState(
-    " Click on a category to display the products"
+    "Click on a category to display the products"
   );
   const [showModal, setShowModal] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState(null);
 
-  const fetchProductsByCategory = async () => {
+  const fetchProductsByCategory = useCallback(async () => {
     try {
-      const response = await axios.post(`http://localhost:3100/search`, null, {
-        params: {
-          type: "productName", // Assuming category is based on product name
-          value: category,
-        },
-      });
-      //setSearchResults(response.data);
+      const response = await axios.post(
+        process.env.REACT_APP_SERVER_API + "/search/",
+        null,
+        {
+          params: {
+            type: "productName",
+            value: category,
+          },
+        }
+      );
       if (response.data.length === 1 && response.data[0].message) {
         setSearchResults([]);
         setSearchMessage(`No product found`);
@@ -35,20 +38,21 @@ const Categories = () => {
     } catch (error) {
       console.error("Error fetching products by category:", error);
     }
-  };
+  }, [category]);
 
   useEffect(() => {
     if (category) {
       fetchProductsByCategory();
     }
-  }, [category]);
+  }, [category, fetchProductsByCategory]);
 
   const handleDeleteProduct = async (productId) => {
     try {
-      await axios.delete(`http://localhost:3100/delete/product/${productId}`);
-      // Refresh search results after deletion
+      await axios.delete(
+        process.env.REACT_APP_SERVER_API + "/delete/product/" + productId
+      );
       fetchProductsByCategory();
-      setShowModal(false); // Close delete modal after successful deletion
+      setShowModal(false);
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -63,14 +67,12 @@ const Categories = () => {
     setShowModal(false);
   };
 
-  // Function to handle category search
   const handleSearch = (category) => {
     setCategory(category);
   };
 
   return (
     <div className="container mt-4">
-      {/* Buttons for different categories */}
       <div className="mb-3">
         <button
           onClick={() => handleSearch("Switch")}
@@ -121,14 +123,11 @@ const Categories = () => {
           Collector's
         </button>
       </div>
-      {/* Search message */}
       <div className="row">
         <div className="col-md-12 mb-4">
           <p>{searchMessage}</p>
         </div>
       </div>
-
-      {/* Product cards */}
       <div className="row mt-4">
         {searchResults.map((product) => (
           <ProductCard
@@ -138,7 +137,6 @@ const Categories = () => {
           />
         ))}
       </div>
-      {/* Delete modal */}
       <Delete
         showModal={showModal}
         handleCloseModal={handleCloseModal}

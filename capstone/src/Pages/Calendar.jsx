@@ -16,8 +16,9 @@ function Calendar() {
     try {
       const username = localStorage.getItem("username");
       const response = await axios.get(
-        `http://localhost:3100/notes/${username}`
-      ); // Adjust the endpoint accordingly
+        process.env.REACT_APP_SERVER_API + "/notes/" + username
+        //`http://localhost:3100/notes/${username}`
+      );
       console.log("FE-notes", response);
       const formattedNotes = response.data.map((note) => ({
         ...note,
@@ -39,7 +40,7 @@ function Calendar() {
   const handleAddNote = async (date, time, message) => {
     try {
       const username = localStorage.getItem("username");
-      await axios.post("http://localhost:3100/notes", {
+      await axios.post(process.env.REACT_APP_SERVER_API + "/notes", {
         date,
         time,
         message,
@@ -60,9 +61,12 @@ function Calendar() {
         note.message
       );
       if (newMessage !== null) {
-        await axios.put(`http://localhost:3100/notes/${note.note_id}`, {
-          message: newMessage,
-        });
+        await axios.put(
+          process.env.REACT_APP_SERVER_API + "/notes/" + note.note_id,
+          {
+            message: newMessage,
+          }
+        );
         setAlertMessage("Note updated successfully");
         fetchNotes();
       }
@@ -78,7 +82,9 @@ function Calendar() {
         "Are you sure you want to delete this note?"
       );
       if (confirmDelete) {
-        await axios.delete(`http://localhost:3100/notes/${note.note_id}`);
+        await axios.delete(
+          process.env.REACT_APP_SERVER_API + "/notes/" + note.note_id
+        );
         setAlertMessage("Note deleted successfully");
         fetchNotes();
       }

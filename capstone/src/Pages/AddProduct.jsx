@@ -23,7 +23,7 @@ function AddProduct() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3100/add/product`,
+        process.env.REACT_APP_SERVER_API + "/add/product",
         formData
       );
       console.log("temp-created!", response.data);
