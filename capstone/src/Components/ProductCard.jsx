@@ -8,8 +8,6 @@ const ProductCard = ({ product, onDelete }) => {
         <div style={{ height: "60%" }}>
           <img
             src={product.image_url_1 || "https://via.placeholder.com/300"}
-            className="card-img-top"
-            alt="Product Image"
             style={{
               width: "100%",
               height: "100%",

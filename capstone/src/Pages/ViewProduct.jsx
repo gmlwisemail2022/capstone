@@ -8,7 +8,7 @@ function ViewProduct(props) {
 
   useEffect(() => {
     fetchProduct(productId);
-  }, []);
+  }, [productId]);
 
   const fetchProduct = async (productId) => {
     try {
@@ -46,35 +46,30 @@ function ViewProduct(props) {
             {product.image_url_1 && (
               <img
                 src={product.image_url_1}
-                alt="Product Image 1"
                 style={{ maxWidth: "20%", marginRight: "5px" }} // Limit the size of the image relative to VW
               />
             )}
             {product.image_url_2 && (
               <img
                 src={product.image_url_2}
-                alt="Product Image 2"
                 style={{ maxWidth: "20%", marginRight: "5px" }} // Limit the size of the image relative to VW
               />
             )}
             {product.image_url_3 && (
               <img
                 src={product.image_url_3}
-                alt="Product Image 3"
                 style={{ maxWidth: "20%", marginRight: "5px" }} // Limit the size of the image relative to VW
               />
             )}
             {product.image_url_4 && (
               <img
                 src={product.image_url_4}
-                alt="Product Image 4"
                 style={{ maxWidth: "20%", marginRight: "5px" }} // Limit the size of the image relative to VW
               />
             )}
             {product.image_url_5 && (
               <img
                 src={product.image_url_5}
-                alt="Product Image 5"
                 style={{ maxWidth: "20%", marginRight: "5px" }} // Limit the size of the image relative to VW
               />
             )}

@@ -12,13 +12,6 @@ const Categories = () => {
   const [showModal, setShowModal] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState(null);
 
-  useEffect(() => {
-    // Fetch products by category when category state changes
-    if (category) {
-      fetchProductsByCategory();
-    }
-  }, [category]);
-
   const fetchProductsByCategory = async () => {
     try {
       const response = await axios.post(`http://localhost:3100/search`, null, {
@@ -43,6 +36,12 @@ const Categories = () => {
       console.error("Error fetching products by category:", error);
     }
   };
+
+  useEffect(() => {
+    if (category) {
+      fetchProductsByCategory();
+    }
+  }, [category]);
 
   const handleDeleteProduct = async (productId) => {
     try {
