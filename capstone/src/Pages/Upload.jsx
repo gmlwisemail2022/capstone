@@ -13,7 +13,7 @@ function Upload() {
       const formData = new FormData();
       formData.append("file", file);
       console.log("appended file", file);
-      await axios.post("http://localhost:3100/upload", formData, {
+      await axios.post(process.env.REACT_APP_SERVER_API + "/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
