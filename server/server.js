@@ -14,7 +14,17 @@ const app = express();
 //require("./passport-setup");
 
 // Session middleware
-app.use(cors());
+// Enable CORS
+app.use(
+  cors({
+    origin: [
+      "https://curious-gnome-b84263.netlify.app",
+      "https://localhost:3000",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(
   session({
     secret: "your-secret-key",
