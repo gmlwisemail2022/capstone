@@ -21,6 +21,7 @@ app.use(
   cors({
     origin: [
       "https://curious-gnome-b84263.netlify.app",
+      "https://main--ecim.netlify.app"
       "https://localhost:3000",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
