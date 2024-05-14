@@ -15,6 +15,8 @@ const app = express();
 
 // Session middleware
 // Enable CORS
+app.use(cors());
+/*
 app.use(
   cors({
     origin: [
@@ -25,6 +27,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+*/
 app.use(
   session({
     secret: "your-secret-key",
