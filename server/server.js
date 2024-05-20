@@ -7,7 +7,7 @@ const cors = require("cors");
 const routes = require("./routes");
 const fileUpload = require("express-fileupload"); // Import express-fileupload
 
-const PORT = process.env.PORT || 3100;
+const PORT = process.env.PORT || 3100 || 443;
 const app = express();
 
 // Require the Passport setup file
