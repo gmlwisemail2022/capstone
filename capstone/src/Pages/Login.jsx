@@ -23,7 +23,7 @@ function UserAuth() {
     }
   };
 
-  // Check for success message in URL query parameters
+  //  Check for success message in URL query parameters
   React.useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     if (queryParams.get("success")) {
