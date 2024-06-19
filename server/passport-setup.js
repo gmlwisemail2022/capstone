@@ -32,9 +32,13 @@ passport.use(
         console.log("username found:", user);
         // You can save the user to your database here or pass it to the next middleware
         // Generate JWT token
-        const token = jwt.sign({ username: user.username }, "secret", {
-          expiresIn: "1h",
-        });
+        const token = jwt.sign(
+          { username: user.username },
+          process.env.SECRET_KEY,
+          {
+            expiresIn: "1h",
+          }
+        );
 
         console.log("jwt created at :", token);
         // Set the token in the user object passed to done
