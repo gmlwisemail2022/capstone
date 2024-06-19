@@ -120,7 +120,7 @@ const initiateGoogleLogin = (req, res) => {
     const authUrl =
       "https://accounts.google.com/o/oauth2/v2/auth" +
       "?response_type=code" +
-      `&redirect_uri=http%3A%2F%2Flocalhost%3A3100%2Fauth%2Fgoogle%2Fcallback` +
+      `&redirect_uri=${process.env.REACT_APP_SERVER_API}%2Fauth%2Fgoogle%2Fcallback` +
       "&scope=profile%20email" +
       `&client_id=${process.env.GOOGLE_CLIENT_ID}`;
 
